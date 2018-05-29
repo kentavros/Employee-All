@@ -1,0 +1,116 @@
+<aura:component >
+    <aura:attribute name='employeeSkill' type='Map' />
+    <aura:attribute name='showEditForm' type='Boolean' default='false' />
+    <aura:attribute name='showSpinner' type='Boolean' default='false' />
+
+    <!-- EVENTS ******************************************************************************************* -->
+    <!-- MARKUP ******************************************************************************************* -->
+    <div class="slds-grid slds-size_1-of-1 slds-grid_align-center slds-m-top_xx-small">
+        <lightning:card class="slds-size_9-of-12 slds-m-bottom_small">
+            <aura:set attribute="title">
+                <div class="slds-grid slds-size_1-of-1 slds-wrap">
+                    <div class="slds-grid slds-grid_align-center slds-size_4-of-4">
+                        <lightning:icon iconName="utility:user" size="small"/>
+                        <span class='slds-m-left_xx-small slds-p-top_xx-small'>
+                            <strong>{! v.employeeSkill.employeeFirstName + ' ' + v.employeeSkill.employeeLastName }</strong>
+                        </span>
+                    </div>
+                    
+                    <div class="slds-grid slds-size_4-of-4 slds-grid_align-center slds-p-bottom_xx-small">
+                        <div class="slds-col slds-m-horizontal_x-small">
+                            <span class="slds-badge slds-badge_inverse">
+                                <lightning:icon class="slds-p-top_xx-small" size='xx-small' iconName="utility:resource_capacity" variant="warning"/>
+                                Availability: {! v.employeeSkill.employeeAvailability }
+                            </span>
+                        </div>
+                        <div class="slds-col slds-m-horizontal_x-small">
+                            <span class="slds-badge slds-badge_inverse">
+                                <lightning:icon class="slds-p-top_xx-small" size='xx-small' iconName="utility:dash" variant="warning"/>
+                                Already in use: {! v.employeeSkill.employeeSumAssignedTime }
+                            </span>
+                        </div>
+                        <div class="slds-col slds-m-horizontal_x-small">
+                            <span class="slds-badge slds-badge_inverse">
+                                    <lightning:icon class="slds-p-top_xx-small" size='xx-small' iconName="utility:add" variant="warning"/>
+                                Free Hours: {! v.employeeSkill.employeeFreeHours }
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </aura:set>
+
+            <aura:set attribute="body">
+                <aura:if isTrue="{! !v.showEditForm }">
+                    <div class="slds-grid slds-grid_align-center slds-wrap">
+                        <div class="slds-grid slds-size_11-of-12 slds-wrap slds-box">
+                            <div class="slds-grid slds-size_1-of-1 slds-border_bottom">
+                                <div class="slds-grid slds-size_11-of-12">
+                                	<p><strong>Position: </strong> {! v.employeeSkill.position }</p>
+                                </div>
+                                <div class="slds-size_1-of-12">
+                                    <div class="slds-float_right">
+                                        <lightning:buttonIcon onclick="{!c.onclickEditButton}"
+                                                              iconName="utility:edit"
+                                                              variant="bare"
+                                                              alternativeText="Edit" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-size_1-of-1 slds-border_bottom slds-m-top_xx-small">
+                                <div class="slds-grid slds-size_11-of-12">
+                                	<p><strong>Assigned: </strong> {! v.employeeSkill.assignedTime }</p>
+                                </div>
+                                <div class="slds-size_1-of-12">
+                                    <div class="slds-float_right">
+                                        <lightning:buttonIcon onclick="{!c.onclickEditButton}"
+                                                              iconName="utility:edit"
+                                                              variant="bare"
+                                                              alternativeText="Edit" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.showEditForm}">
+                    <lightning:layoutItem aura:id="place_for_edit_form" class="slds-grid slds-grid_align-center">
+                        <!-- Form create -->
+                    </lightning:layoutItem>
+                </aura:if>
+
+                <aura:if isTrue="{!v.showSpinner}">
+                        <lightning:spinner alternativeText="Loading"/>
+                </aura:if>
+            </aura:set>
+
+            <!-- <aura:set attribute='footer'>
+                <div class="slds-grid slds-size_1-of-1 slds-grid_align-center">
+                    <div class="slds-col slds-text-title_caps">
+                        <strong>Employee Info</strong>
+                    </div>
+                </div>
+                <div class="slds-grid slds-size_1-of-1 slds-grid_align-center">
+                    <div class="slds-col slds-m-horizontal_x-small">
+                        <span class="slds-badge slds-badge_inverse">
+                            <lightning:icon class="slds-p-top_xx-small" size='xx-small' iconName="utility:resource_capacity" variant="warning"/>
+                            Availability: {! v.employeeSkill.employeeAvailability }
+                        </span>
+                    </div>
+                    <div class="slds-col slds-m-horizontal_x-small">
+                        <span class="slds-badge slds-badge_inverse">
+                            <lightning:icon class="slds-p-top_xx-small" size='xx-small' iconName="utility:dash" variant="warning"/>
+                            Already in use: {! v.employeeSkill.employeeSumAssignedTime }
+                        </span>
+                    </div>
+                    <div class="slds-col slds-m-horizontal_x-small">
+                        <span class="slds-badge slds-badge_inverse">
+                                <lightning:icon class="slds-p-top_xx-small" size='xx-small' iconName="utility:add" variant="warning"/>
+                            Free Hours: {! v.employeeSkill.employeeFreeHours }
+                        </span>
+                    </div>
+                </div>
+            </aura:set> -->
+        </lightning:card>
+    </div>
+</aura:component>

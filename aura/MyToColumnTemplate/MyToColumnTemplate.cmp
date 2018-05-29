@@ -1,0 +1,17 @@
+<aura:component implements="lightning:appHomeTemplate" >
+    <aura:attribute name="left" type="Aura.Component[]" />
+    <aura:attribute name="right" type="Aura.Component[]" />
+    
+    <div>
+    <!--<div class="slds-box slds-theme_default">-->
+        <lightning:layout horizontalAlign="spread" >
+            <lightning:layoutItem flexibility="grow" size="3">
+                {!v.left}
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="grow" size="9">
+                {!v.right}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

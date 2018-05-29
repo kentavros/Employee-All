@@ -1,0 +1,113 @@
+<aura:component controller="L_AccountProjectController"
+                implements="flexipage:availableForAllPageTypes">
+
+    <aura:dependency resource="markup://c:ModalWindow"/>
+    <!--<aura:dependency resource="markup://c:testhhh" />-->
+
+    <!--<aura:registerEvent name="addEmployeeToProject" type="c:AddNewEmployeeToProjectEvent" action="{!c.updateTeamMembersCount}"/>-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="accountSearch" event="c:AccountSearchEvent" action="{!c.accountSearch}"/>
+    <aura:handler name="clearAccountSearch" event="c:ClearAccountSearchEvent"
+                  action="{!c.clearAccountSearch}"/>
+    <!--<aura:hande type="c:EmployeeSuccessAddedToProjectEvent" action="{!c.clearAccountSearch}"/>-->
+    <aura:handler event="c:EmployeeSuccessAddedToProjectEvent" action="{!c.updateEmployeeCount}"/>
+
+    <aura:attribute name="options" type="List"/>
+    <aura:attribute name="allProjects" type="List"/>
+    <aura:attribute name="projectsForSelectedAccount" type="List"/>
+    <aura:attribute name="tabId" type="String" default="2"/>
+    <aura:attribute name="clearLookup" type="Boolean"/>
+
+    <div aura:id="ModalDialogPlaceholder"/>
+
+    <article class="slds-card">
+        <div class="slds-card__body slds-m-around_medium">
+            <div class="slds-form slds-form_stacked">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning:select aura:id="selectedAccount" class="select-auto-width"
+                                          name="mySelect"
+                                          label="Clients"
+                                          onchange="{!c.handleAccountChange}">
+                            <option text="All" value="All"/>
+                            <aura:iteration items="{!v.options}" var="item">
+                                <option class="slds-size--1-of-2" text="{!item.accountName}" value="{!item.accountId}"/>
+                            </aura:iteration>
+                        </lightning:select>
+                        <!--<div/>-->
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <div class="slds-clearfix">
+                                    <c:Lookup objectName="Account"
+                                              field_API_text="Name"
+                                              field_API_val="Id"
+                                              limit="4"
+                                              clearLookup="{!v.clearLookup}"
+                                              field_API_search="Name"
+                                              lookupIcon="standard:opportunity"
+                                              label="Search Client"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div class="slds-col ">
+        <article class="slds-card slds-m-top--large" aura:id="contactProjects">
+            <div class="slds-card__body slds-m-around_medium">
+                <div class="slds-form slds-form_stacked">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <aura:iteration items="{!v.projectsForSelectedAccount}" var="item" indexVar="acc">
+                                <div>
+                                    <section id="accordion">
+                                        <div>
+                                            <input type="checkbox" name="accordion-role" id="{!'a'+ acc}"/>
+                                            <label for="{!'a'+ acc}">{!item.accountName}</label>
+                                            <aura:iteration items="{!item.accountProjects}" var="projects"
+                                                            indexVar="ppp">
+                                                <article>
+                                                    <div class="slds-p-around--medium">
+                                                        <ol class="slds-m-left--small">
+                                                            <li>
+                                                                {!projects.projectName}
+                                                            </li>
+                                                            <li>
+                                                                <div class="slds-show_inline-block slds-p-right--small">
+                                                                    <lightning:icon iconName="utility:user" size="small"/>
+                                                                    <span class="slds-m-left--small">{!projects.teamMembers}</span>
+
+                                                                </div>
+                                                                <div class="slds-button-group" role="group">
+                                                                    <lightning:buttonIcon iconName="utility:edit"
+                                                                                          variant="border-filled"
+                                                                                          onclick="{!c.openDetailsWindow}"
+                                                                                          alternativeText="Project Info"
+                                                                                          disabled="{!projects.teamMembers == 0 ? true : false}"
+                                                                                          value="{!projects.projectId}"
+                                                                                          class="slds-button "/>
+                                                                    <lightning:buttonIcon iconName="utility:add"
+                                                                                          variant="border-filled"
+                                                                                          onclick="{!c.addNewEmployee}"
+                                                                                          alternativeText="add Employee to project"
+                                                                                          value="{!projects}"
+                                                                                          class="slds-button "/>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
+                                                    </div>
+                                                </article>
+                                            </aura:iteration>
+                                        </div>
+                                    </section>
+                                </div>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</aura:component>

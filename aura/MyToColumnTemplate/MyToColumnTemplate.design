@@ -1,0 +1,12 @@
+<design:component label="A two column with a background image">
+    <flexipage:template >
+        <!-- The default width for the "left" region is "MEDIUM". In tablets,
+    the width is "SMALL" -->
+        <flexipage:region name="left" defaultWidth="LARGE" >
+            <flexipage:formfactor type="LARGE" width="LARGE" />
+        </flexipage:region>
+        <flexipage:region name="right" defaultWidth="LARGE">
+            <flexipage:formfactor type="LARGE" width="LARGE" />
+        </flexipage:region>
+    </flexipage:template>
+</design:component>

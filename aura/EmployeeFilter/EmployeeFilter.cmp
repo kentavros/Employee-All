@@ -1,0 +1,107 @@
+<aura:component implements="flexipage:availableForAllPageTypes" controller="L_EmployeeController">
+
+    <aura:attribute name="projectId" type="String" default=""/>
+    <aura:attribute name="projectName" type="String" default="" />
+    <aura:attribute name="wrappEmployee" type="List" />
+
+    <aura:attribute name="depatmentPick" type="List" />
+    <aura:attribute name="levelPick" type="List" />
+    <aura:attribute name="positionPick" type="List" />
+
+    <aura:attribute name="sortName" type="Boolean" default="true" />
+    <aura:attribute name="sortHours" type="Boolean" default="true" />
+    <aura:attribute name="sortDepat" type="Boolean" default="true" />
+    <aura:attribute name="sortLevel" type="Boolean" default="true" />
+
+    <aura:handler event="c:AddNewEmployeeToProjectEvent" action="{!c.doInit}"/>
+    <aura:handler name="UpdateEmployeesEvent" event="c:UpdateEmployeesEvent" action="{!c.getFilteredData}"/>
+    
+
+    <aura:if isTrue="{!v.projectId}">
+        <div class="slds-m-left_small" style="overflow: inherit;">
+        <lightning:card class="slds-m-bottom_medium" title="{!'Project Name: ' + v.projectName}">
+            <p class="slds-p-horizontal_small ">
+                <form  class="slds-form--inline ">
+                    <lightning:input name="inpName" label="Name" type="text" 
+                        aura:id="filterForm" value="" onchange="{!c.getFilteredData}" />
+                    <lightning:select name="selDepat" label="IT Department" 
+                        aura:id="filterForm" onchange="{!c.getFilteredData}">
+                        <option value="">All</option>
+                        <aura:iteration items="{!v.depatmentPick}" var="depatment" >
+                                <option value="{!depatment}">{!depatment}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                    <lightning:select name="selLevel" label="Level" aura:id="filterForm" onchange="{!c.getFilteredData}">
+                        <option value="">All</option>
+                        <aura:iteration items="{!v.levelPick}" var="level">
+                            <option value="{!level}">{!level}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </form>
+            </p>
+        </lightning:card>
+        
+        <div >
+            <lightning:card title="Found Result" >  
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered slds-m-bottom_medium slds-max-medium-table_stacked-horizontal">
+                    <thead >
+                        <tr class="slds-text-title_caps">
+                            <th scope="col" >
+                                <div class="slds-truncate slds-text-align_center" title="First and Last Name">
+                                    <lightning:button class="btnSort" name="sortName" value="{!v.sortName}"
+                                        variant="base" iconPosition="right" iconName="utility:arrowdown" onclick="{!c.sortByClick}">NAME</lightning:button>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_center" title="Department">
+                                    <lightning:button class="btnSort" name="sortDepat" value="{!v.sortDepat}"
+                                        variant="base" iconPosition="right" iconName="utility:arrowdown" onclick="{!c.sortByClick}">DEPARTMENT</lightning:button>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_center" title="Level">
+                                    <lightning:button class="btnSort" name="sortLevel" value="{!v.sortLevel}"
+                                        variant="base" iconPosition="right" iconName="utility:arrowdown" onclick="{!c.sortByClick}">LEVEL</lightning:button>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_center" title="Availability">
+                                        <lightning:button class="btnSort" name="sortHours" value="{!v.sortHours}"
+                                            variant="base" iconPosition="right" iconName="utility:arrowdown" onclick="{!c.sortByClick}">AVAILABILITY</lightning:button>
+                                    
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-text-align_center" title="Assigned Employee">Assigned Employee</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="backSetTable">
+                        <aura:iteration items="{!v.wrappEmployee}" var="wemployee" >       
+                            <tr>
+                                <td data-label="First Name">
+                                    <div class="slds-truncate slds-text-align_center"  >{!wemployee.firstName + ' '+ wemployee.lastName}</div>
+                                </td>
+                                <td data-label="Department">
+                                    <div class="slds-truncate slds-text-align_center" >{!wemployee.department}</div>
+                                </td>
+                                <td data-label="Level">
+                                    <div class="slds-truncate slds-text-align_center" >{!wemployee.level}</div>
+                                </td>
+
+                                <td data-label="Free Hours">
+                                    <div class="slds-truncate slds-text-align_center" >{!wemployee.freeHours}</div>
+                                </td>
+                                <td data-label="Add Form">
+                                    <c:FormAddEmployeeToProject positionPick="{!v.positionPick}"
+                                        wEmployee="{!wemployee}" projectId="{!v.projectId}" /> 
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </lightning:card>
+        </div>
+    </div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,23 @@
+<aura:component controller="L_ProjectDetailsController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name='projectId' type='ID' default='a081r000010fbBvAAI' />
+    <aura:attribute name='allEmployeeSkillsForProjectList' type='List' default='[]' />
+    <aura:attribute name='filteredEmployeeSkillsForProjectList' type='List' default='[]' />
+    <aura:attribute name='picklistValuesForFilterMap' type='Map' default='{Position__c : []}' />
+
+    <!-- EVENTS ******************************************************************************************* -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.projectId}" action="{!c.getEmployeeSkillsForProject}" />
+
+    <aura:handler name="eventSelectedFilter" event="c:EventSelectedProjectDetailsFilter" action="{!c.handleEventSelectedFilter}" />
+    <!-- MARKUP ******************************************************************************************* -->
+    <div class="slds-grid slds-size_1-of-1 slds-grid_align-center slds-wrap">
+        <!-- Filter -->
+        <div class="slds-grid slds-size_1-of-1 slds-grid_align-center">
+            <c:projectDetailsFilter picklistValuesMap='{!v.picklistValuesForFilterMap}' />
+        </div>
+        <!-- Employee Skills List -->
+        <div class="slds-grid slds-size_1-of-1 slds-grid_align-center">
+            <c:projectDetailsList employeeSkillsList='{!v.filteredEmployeeSkillsForProjectList}' />
+        </div>
+    </div>
+</aura:component>

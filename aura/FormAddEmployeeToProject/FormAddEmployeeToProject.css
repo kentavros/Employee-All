@@ -1,0 +1,11 @@
+.THIS .btnSt1 {
+    /* color: red; */
+    padding-left: 0.4rem; 
+    padding-right: 0.4rem;
+    border-radius: 4px;
+    /* font-size: 12px; */
+}
+
+.THIS .marginBtn {
+    margin-top: 21px;
+}

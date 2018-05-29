@@ -1,0 +1,12 @@
+<aura:component >
+	<aura:attribute name='employeeSkillsList' type='List' default='[]' />
+
+    <!-- EVENTS ******************************************************************************************* -->
+    <!-- MARKUP ******************************************************************************************* -->
+
+    <div class="slds-grid slds-size_1-of-1 slds-wrap">
+        <aura:iteration items="{!v.employeeSkillsList}" var="employeeSkill">
+            <c:projectDetailsListItem employeeSkill='{!employeeSkill}' />
+        </aura:iteration>
+    </div>
+</aura:component>

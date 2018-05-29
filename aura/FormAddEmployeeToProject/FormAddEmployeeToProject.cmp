@@ -1,0 +1,36 @@
+<aura:component controller="L_EmployeeController">
+
+    <aura:attribute name="positionPick" type="List" />
+    <aura:attribute name="wEmployee" type="Object" />
+    <aura:attribute name="projectId" type="String" />
+
+    <aura:attribute name="hour" type="Integer" />
+    <aura:attribute name="selPosValue" type="String" />
+
+    <aura:registerEvent name="UpdateEmployeesEvent" type="c:UpdateEmployeesEvent"/>
+    <aura:registerEvent name="EmployeeSuccessAddedToProject" type="c:EmployeeSuccessAddedToProjectEvent"/>
+    <form class="slds-form-element">
+
+        <div class="slds-form-element slds-m-left_x-small" style="width: 100px; float:left;" >
+            <lightning:input type="decimal" label="Hour" name="number" required="true" value="{!v.hour}" />
+        </div>
+
+        <div class="slds-form-element slds-m-left_x-small" style="width: 130px; float:left;">
+            <lightning:select name="select1" label="Position" value="{!v.selPosValue}" required="true">
+                <option value="">Select Please</option>
+                <aura:iteration items="{!v.positionPick}" var="position" >
+                    <option value="{!position}">{!position}</option>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+
+        <div class="slds-form-element marginBtn slds-m-left_x-small" style="float:left;" >
+            <button class="slds-button slds-button_brand btnSt1" title="Add" type="button" onclick="{!c.addEmployee}">
+                Add
+            </button>
+        </div>
+        
+    </form>
+
+
+</aura:component>

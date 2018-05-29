@@ -1,0 +1,41 @@
+public class L_Lookup {
+    @AuraEnabled 
+    public static String searchDB(String objectName, String fld_API_Text, String fld_API_Val, 
+                                  Integer lim,String fld_API_Search,String searchText ){
+        
+        searchText='\'%' + String.escapeSingleQuotes(searchText.trim()) + '%\'';
+
+        if (!Schema.getGlobalDescribe().get(objectName).getDescribe().isAccessible()){
+            throw new AuraHandledException('Access error');
+        }
+        String query = 'SELECT '+fld_API_Text+' ,'+fld_API_Val+
+            			' FROM '+objectName+
+                        ' WHERE '+fld_API_Search+' LIKE '+searchText+ 
+                        ' ORDER BY '+fld_API_Text+
+            			' LIMIT '+lim;
+        List<sObject> sobjList;
+        try{
+            sobjList = Database.query(query);
+        }catch(DmlException e){
+            throw new AuraHandledException('You try to break us');
+        }
+        
+        
+        List<ResultWrapper> lstRet = new List<ResultWrapper>();
+        
+        for(SObject s : sobjList){
+            ResultWrapper obj = new ResultWrapper();
+            obj.objName = objectName;
+            obj.text = String.valueOf(s.get(fld_API_Text)) ;
+            obj.val = String.valueOf(s.get(fld_API_Val))  ;
+            lstRet.add(obj);
+        } 
+         return JSON.serialize(lstRet) ;
+    }
+    
+    public class ResultWrapper{
+        public String objName {get;set;}
+        public String text{get;set;}
+        public String val{get;set;}
+    }
+}

@@ -1,0 +1,36 @@
+<aura:component controller="MyProjectController">
+
+    <aura:attribute name="projectsAndSkills" type="List" />
+    <aura:attribute name="isPopUpVisible" type="Boolean" default="false" />
+    <aura:attribute name="projectId" type="String" />
+ 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+
+
+    <div>
+        <lightning:card title="List Projects ">
+            <lightning:accordion aura:id="accordion">
+                <aura:iteration items="{!v.projectsAndSkills}" var="project">
+                    <lightning:accordionSection label="{!project.Name}">
+                        <aura:set attribute="actions">
+                            <lightning:buttonGroup >
+                                <lightning:button name="{!project.Id}" variant="brand" label="Add Employees" 
+                                    title="Add Employees action" onclick="{! c.clickAddEmployee }"/>
+                            </lightning:buttonGroup>
+                        </aura:set>
+                        <aura:set attribute="body">
+                            <aura:iteration items="{!project.EmployeeSkills__r}" var="skill">
+                                    <p>&emsp; {!skill.Name} </p>
+                            </aura:iteration>
+                        </aura:set>
+                    </lightning:accordionSection>
+                </aura:iteration>
+            </lightning:accordion>
+        </lightning:card>
+    </div>
+
+    <aura:if isTrue="{!v.projectId}">
+        <c:EmployeeFilter projectId="{!v.projectId}"/>
+    </aura:if>
+</aura:component>
